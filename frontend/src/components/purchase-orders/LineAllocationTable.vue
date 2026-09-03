@@ -52,9 +52,9 @@ const emit = defineEmits(['remove', 'select', 'update-line']);
                 :value="line.allocatedQty"
                 type="number"
                 min="0.01"
-                :max="line.remainingQty"
                 step="0.01"
                 aria-label="Allocate quantity"
+                :data-testid="`allocate-qty-${line.id}`"
                 @input="emit('update-line', index, 'allocatedQty', $event.target.value)"
               />
             </td>
@@ -84,6 +84,7 @@ const emit = defineEmits(['remove', 'select', 'update-line']);
         :key="line.id"
         type="button"
         class="available-line"
+        :data-testid="`available-line-${line.id}`"
         @click="emit('select', line)"
       >
         <span>{{ line.prNumber }} - {{ line.itemCode }} - {{ line.itemName }}</span>

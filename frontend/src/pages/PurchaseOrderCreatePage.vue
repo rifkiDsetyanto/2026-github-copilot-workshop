@@ -125,10 +125,10 @@ onMounted(loadAvailableLines);
       </div>
     </div>
 
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    <p v-if="successMessage" class="success">{{ successMessage }}</p>
+    <p v-if="errorMessage" class="error" data-testid="po-error">{{ errorMessage }}</p>
+    <p v-if="successMessage" class="success" data-testid="po-success">{{ successMessage }}</p>
 
-    <form @submit.prevent="saveDraft">
+    <form data-testid="po-create-form" @submit.prevent="saveDraft">
       <PurchaseOrderHeaderForm
         v-model:vendor-name="purchaseOrder.vendorName"
         v-model:purchase-order-date="purchaseOrder.purchaseOrderDate"
@@ -150,7 +150,7 @@ onMounted(loadAvailableLines);
 
       <div class="btn-group">
         <RouterLink to="/requisitions" class="btn btn-outline">Cancel</RouterLink>
-        <button type="submit" class="btn btn-primary" :disabled="isSaving">{{ isSaving ? 'Saving...' : 'Save As Draft' }}</button>
+        <button type="submit" class="btn btn-primary" data-testid="save-po" :disabled="isSaving">{{ isSaving ? 'Saving...' : 'Save As Draft' }}</button>
       </div>
     </form>
   </section>
