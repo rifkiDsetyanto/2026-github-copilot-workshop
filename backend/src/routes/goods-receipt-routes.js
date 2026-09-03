@@ -1,0 +1,53 @@
+import {
+  createGoodsReceipt,
+  getGoodsReceiptById,
+  listGoodsReceipts,
+  postGoodsReceipt,
+} from '../services/goods-receipt-service.js';
+
+function sendServiceError(reply, error) {
+  if (error.statusCode) {
+    reply.code(error.statusCode);
+    return { message: error.message };
+  }
+  throw error;
+}
+
+export default async function goodsReceiptRoutes(fastify) {
+  fastify.get('/api/goods-receipts', async (request, reply) => {
+    const items = await listGoodsReceipts(fastify.db);
+    return { items };
+  });
+
+  fastify.post('/api/goods-receipts', async (request, reply) => {
+    try {
+      const goodsReceipt = await createGoodsReceipt(fastify.db, request.body);
+      reply.code(201);
+      return goodsReceipt;
+    } catch (error) {
+      return sendServiceError(reply, error);
+    }
+  });
+
+  fastify.get('/api/goods-receipts/:id', async (request, reply) => {
+    const goodsReceipt = await getGoodsReceiptById(fastify.db, request.params.id);
+    if (!goodsReceipt) {
+      reply.code(404);
+      return { message: 'Goods receipt not found' };
+    }
+    return goodsReceipt;
+  });
+
+  fastify.post('/api/goods-receipts/:id/post', async (request, reply) => {
+    try {
+      const goodsReceipt = await postGoodsReceipt(fastify.db, request.params.id);
+      if (!goodsReceipt) {
+        reply.code(404);
+        return { message: 'Goods receipt not found' };
+      }
+      return goodsReceipt;
+    } catch (error) {
+      return sendServiceError(reply, error);
+    }
+  });
+}

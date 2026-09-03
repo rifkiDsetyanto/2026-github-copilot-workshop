@@ -9,6 +9,13 @@
         </div>
       </div>
       <div v-if="purchaseOrder" class="btn-group">
+        <RouterLink
+          v-if="purchaseOrder.status === 'SUBMITTED' && purchaseOrder.lines.some((line) => line.qtyOpenForGr > 0)"
+          class="btn btn-outline"
+          :to="{ name: 'goods-receipts-create', query: { poId: purchaseOrder.id } }"
+        >
+          Create GR
+        </RouterLink>
         <button v-if="purchaseOrder.status === 'DRAFT'" class="btn btn-primary" :disabled="isSubmitting" @click="submitPurchaseOrder">
           {{ isSubmitting ? 'Submitting...' : 'Submit PO' }}
         </button>
