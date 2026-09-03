@@ -23,6 +23,16 @@ Canonical workshop document: [docs/plan.md](docs/plan.md)
 
 ## Quick Start
 
+### Enable the pre-push test hook
+
+Run once after cloning to enable the versioned hook:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The hook runs `npm test` before every push and blocks the push when tests fail.
+
 ### 1) Start PostgreSQL
 ```bash
 docker compose up -d db
